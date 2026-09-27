@@ -1,1 +1,1 @@
-trigger pnpm/setup prune verification
+trigger pnpm/setup built-in post-prune verification
