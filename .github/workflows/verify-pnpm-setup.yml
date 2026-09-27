@@ -33,15 +33,11 @@ jobs:
           echo "After adding unused package:"
           du -sk "$(pnpm store path)"
 
-      - name: Prune store immediately after setup
+      - name: Verify project still works before post-action
         run: |
-          pnpm store prune
-          echo "After prune:"
+          echo "Before pnpm/setup post-action:"
           du -sk "$(pnpm store path)"
           node --version
           pnpm --version
-
-      - name: Verify project still works
-        run: |
           pnpm install --frozen-lockfile=false
           pnpm store status
