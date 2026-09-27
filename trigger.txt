@@ -1,0 +1,1 @@
+trigger pnpm/setup prune verification
