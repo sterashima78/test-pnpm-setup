@@ -1,0 +1,15 @@
+{
+  "name": "test-pnpm-setup",
+  "private": true,
+  "packageManager": "pnpm@12.7.0",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.9.0",
+      "onFail": "download"
+    }
+  },
+  "dependencies": {
+    "react": "19.1.1"
+  }
+}
