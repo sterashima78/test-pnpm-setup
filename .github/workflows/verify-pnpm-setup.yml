@@ -1,0 +1,45 @@
+name: Verify pnpm setup prune
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        id: pnpm
+        uses: pnpm/setup@v3
+        with:
+          cache: true
+          require-lockfile: false
+
+      - name: Show versions and store
+        run: |
+          echo "node=$(node --version)"
+          echo "pnpm=$(pnpm --version)"
+          echo "store=$(pnpm store path)"
+          du -sk "$(pnpm store path)" || true
+
+      - name: Seed unused package into store
+        run: |
+          pnpm store add lodash@4.17.20
+          echo "After adding unused package:"
+          du -sk "$(pnpm store path)"
+
+      - name: Prune store immediately after setup
+        run: |
+          pnpm store prune
+          echo "After prune:"
+          du -sk "$(pnpm store path)"
+          node --version
+          pnpm --version
+
+      - name: Verify project still works
+        run: |
+          pnpm install --frozen-lockfile=false
+          pnpm store status
